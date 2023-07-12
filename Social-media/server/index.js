@@ -4,8 +4,12 @@ import mongoose from "mongoose";
 import cors from 'cors';
 import 'dotenv/config'
 
+import postRoutes from './routes/posts.js'
+
 
 const app = express();
+
+app.use('/posts', postRoutes);
 
 // Dòng đầu tiên: sử dụng method json() của body-parser để phân tích dữ liệu dạng JSON.
 // Cụ thể, limit cho phép giới hạn kích thước tối đa của request body là 30MB và extended cho phép phân tích cấu trúc dữ liệu phức tạp hơn.
@@ -24,7 +28,7 @@ const CONNECTION_URL = process.env.MONGODB_CLOUD
 const PORT = process.env.PORT || 3002;
 
 mongoose.connect(CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true})
-    .then(() => app.listen(PORT, console.log(`Server running on Port ${PORT}`)))
+    .then(() => app.listen(PORT, console.log(`Server running on Port: http://localhost:${PORT}`)))
     .catch((error) => console.log(error.message));
 
 // Tắt tính năng cảnh báo sử dụng findOneAndUpdate() và findOneAndDelete() mặc định của Mongoose
