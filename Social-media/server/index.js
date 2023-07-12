@@ -9,7 +9,6 @@ import postRoutes from './routes/posts.js'
 
 const app = express();
 
-app.use('/posts', postRoutes);
 
 // Dòng đầu tiên: sử dụng method json() của body-parser để phân tích dữ liệu dạng JSON.
 // Cụ thể, limit cho phép giới hạn kích thước tối đa của request body là 30MB và extended cho phép phân tích cấu trúc dữ liệu phức tạp hơn.
@@ -22,6 +21,8 @@ app.use(bodyParser.urlencoded({limit: "30mb", extended: true}))
 // -----------hoặc application/x-www-form-urlencoded được gửi từ client đến server
 
 app.use(cors())
+
+app.use('/posts', postRoutes);
 
 // Database mongDb connection
 const CONNECTION_URL = process.env.MONGODB_CLOUD

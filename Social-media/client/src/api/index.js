@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
-const urlAPI = 'http://localhost:3002/posts'
+const urlAPI = "http://localhost:3002/posts";
 
-export const fetchAllPosts = async () => {
-    await axios.get(urlAPI);
-} 
+export const fetchAllPosts = () => {
+  return axios.get(urlAPI);
+};
