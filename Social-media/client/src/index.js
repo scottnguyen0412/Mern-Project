@@ -2,11 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import {createStore, applyMiddleware, compose} from 'redux';
+import thunk from 'redux-thunk';
+import { reducers } from "./redux/reducers";
 
+// const store: đối tượng store của Redux, lưu trữ trạng thái của ứng dụng và cho phép bạn truy xuất và cập nhật trạng thái đó.
+// createStore(reducers, compose(applyMiddleware(thunk))):
+// - reducers xử lý các action và trả về state mới
+// - compose(applyMiddleware(thunk)): compose() cho phép kết hợp nhiều middleware lại với nhau,
+//   applyMiddleware(thunk) để xử lý các action bất đồng bộ.
+const store = createStore(reducers, compose(applyMiddleware(thunk)))
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 
