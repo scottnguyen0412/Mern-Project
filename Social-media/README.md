@@ -21,6 +21,7 @@
 <li>npm i react-file-base64</li>
 <li>npm i jwt-decode</li>
 <li>npm install react-google-login --legacy-peer-deps</li>
+<li>npm install @mui/icons-material</li>
 </ul>
 
 <h3>MongoDb cloud: <link href="https://cloud.mongodb.com/v2#/org/64ad174b5a555f386d7195e5/projects">https://cloud.mongodb.com/v2#/org/64ad174b5a555f386d7195e5/projects</link></h3>

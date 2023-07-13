@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import { reducers } from "./redux/reducers";
+import './index.css'
 
 // const store: đối tượng store của Redux, lưu trữ trạng thái của ứng dụng và cho phép bạn truy xuất và cập nhật trạng thái đó.
 // createStore(reducers, compose(applyMiddleware(thunk))):

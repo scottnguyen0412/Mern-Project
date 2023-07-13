@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./style.css";
 import { TextField, Button, Typography, Paper } from "@mui/material";
 import FileBase from "react-file-base64";
+import {useDispatch} from 'react-redux'
+import { addPosts } from "../../redux/actions/posts";
 const Form = () => {
   // create in
   const [postData, setPostData] = useState({
@@ -11,6 +13,8 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
+
+  const dispatch = useDispatch();
 
   // Handle change input
   const handleChange = (e) => {
@@ -22,7 +26,12 @@ const Form = () => {
       [name]: value,
     });
   };
-  const handleSubmit = () => {};
+
+  // Handle submit form
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addPosts(postData));
+  };
 
   const handleClear = () => {
 
