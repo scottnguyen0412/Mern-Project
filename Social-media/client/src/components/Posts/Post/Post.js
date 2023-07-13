@@ -15,7 +15,7 @@ import {
 } from "@mui/icons-material";
 import moment from 'moment'
 
-const Post = ({posts}) => {
+const Post = ({posts, setCurrentId}) => {
 
   // Có thể sử dụng cách này
   // const {posts} = props
@@ -33,7 +33,7 @@ const Post = ({posts}) => {
           </Typography>
         </div>
         <div className="overlay2">
-          <Button style={{color:'white'}} size='small' onClick={() => {}}>
+          <Button style={{color:'white'}} size='small' onClick={() => {setCurrentId(posts._id)}}>
             <MoreHoriz fontSize="default"/>
           </Button>
         </div>
@@ -44,8 +44,11 @@ const Post = ({posts}) => {
             })}
           </Typography>
         </div>
-        <CardContent>
           <Typography className="title" variant="h5" gutterBottom>
+              {posts.title}
+          </Typography>
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
               {posts.message}
           </Typography>
         </CardContent>

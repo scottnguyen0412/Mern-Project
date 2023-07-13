@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 import { TextField, Button, Typography, Paper } from "@mui/material";
 import FileBase from "react-file-base64";
-import {useDispatch} from 'react-redux'
-import { addPosts } from "../../redux/actions/posts";
-const Form = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { addPosts, updatePosts } from "../../redux/actions/posts";
+
+const Form = ({ currentId, setCurrentId }) => {
   // create in
   const [postData, setPostData] = useState({
     creator: "",
@@ -13,8 +14,18 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
-
   const dispatch = useDispatch();
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((post) => post._id === currentId) : null
+  );
+
+  // tự động render component giá trị mới
+  useEffect(() => {
+    if(post) {
+      setPostData(post)
+    }
+  },[post])
+
 
   // Handle change input
   const handleChange = (e) => {
@@ -30,12 +41,26 @@ const Form = () => {
   // Handle submit form
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addPosts(postData));
+    if (currentId) {
+      dispatch(updatePosts(currentId, postData));
+    } else {
+      dispatch(addPosts(postData));
+    }
+
+    // handleClear();
   };
 
   const handleClear = () => {
+    setCurrentId(null);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
 
-  }
   return (
     <Paper className="paper">
       <form
@@ -44,7 +69,7 @@ const Form = () => {
         className="root form"
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating a Memory</Typography>
+        <Typography variant="h6">{currentId ? 'Edit':'Creating'} a Memory</Typography>
         <TextField
           name="creator"
           variant="outlined"
@@ -101,7 +126,6 @@ const Form = () => {
           variant="contained"
           color="error"
           size="small"
-          type="submit"
           onClick={handleClear}
           fullWidth
         >

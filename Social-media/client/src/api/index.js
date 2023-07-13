@@ -9,3 +9,7 @@ export const fetchAllPosts = () => {
 export const createPost = (newPost) => {
   return axios.post(`${urlAPI}/createPost`, newPost);
 }
+
+export const updatePost = (id, updatePost) => {
+  return axios.patch(`${urlAPI}/updatePost/${id}`, updatePost); 
+}
