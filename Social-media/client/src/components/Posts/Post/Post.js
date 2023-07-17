@@ -15,7 +15,7 @@ import {
 } from "@mui/icons-material";
 import moment from 'moment'
 import {useDispatch} from 'react-redux';
-import { deletePost } from "../../../redux/actions/posts";
+import { deletePost, likePost } from "../../../redux/actions/posts";
 
 const Post = ({posts, setCurrentId}) => {
 
@@ -58,7 +58,7 @@ const Post = ({posts, setCurrentId}) => {
           </Typography>
         </CardContent>
         <CardActions className="cardActions">
-            <Button size="small" color="primary" onClick={() => {}}>
+            <Button size="small" color="primary" onClick={() => dispatch(likePost(posts._id))}>
                 <ThumbUpOffAlt fontSize="small"/>
                 Like
                 {posts.likeCount}

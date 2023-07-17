@@ -15,5 +15,10 @@ export const updatePost = (id, updatePost) => {
 }
 
 export const deletePost = (id) => {
-  return axios.delete(`${urlAPI}/deletePost/${id}`)
+  return axios.delete(`${urlAPI}/deletePost/${id}`);
 }
+
+export const likePost = (id) => {
+  return axios.patch(`${urlAPI}/post/${id}/likePost`);
+}
+
