@@ -47,7 +47,7 @@ const Form = ({ currentId, setCurrentId }) => {
       dispatch(addPosts(postData));
     }
 
-    // handleClear();
+    handleClear();
   };
 
   const handleClear = () => {

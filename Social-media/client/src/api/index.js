@@ -13,3 +13,7 @@ export const createPost = (newPost) => {
 export const updatePost = (id, updatePost) => {
   return axios.patch(`${urlAPI}/updatePost/${id}`, updatePost); 
 }
+
+export const deletePost = (id) => {
+  return axios.delete(`${urlAPI}/deletePost/${id}`)
+}

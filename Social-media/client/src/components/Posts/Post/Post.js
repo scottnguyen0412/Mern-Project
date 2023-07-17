@@ -14,11 +14,16 @@ import {
   MoreHoriz,
 } from "@mui/icons-material";
 import moment from 'moment'
+import {useDispatch} from 'react-redux';
+import { deletePost } from "../../../redux/actions/posts";
 
 const Post = ({posts, setCurrentId}) => {
 
   // Có thể sử dụng cách này
   // const {posts} = props
+
+  const dispatch = useDispatch();
+
   return (
     <Card className="card">
       <CardMedia className="media" 
@@ -58,7 +63,7 @@ const Post = ({posts, setCurrentId}) => {
                 Like
                 {posts.likeCount}
             </Button>
-            <Button size="small" color="primary" onClick={() => {}}>
+            <Button size="small" color="primary" onClick={() => dispatch(deletePost(posts._id))}>
                 <DeleteOutline fontSize="small"/>
                 Delete
             </Button>
