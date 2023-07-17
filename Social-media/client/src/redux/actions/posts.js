@@ -1,5 +1,6 @@
 // Sử dụng tất cả api trong folder api
 import * as api from '../../api';
+import {ACTION_TYPES} from '../../constants/actionTypes';
 
 // Action Creators
 // fetch post
@@ -7,7 +8,7 @@ export const getPosts = () => async (dispatch) => {
     try {
         const {data} = await api.fetchAllPosts();
         dispatch({
-            type: 'FETCH_ALL',
+            type: ACTION_TYPES[0],
             payload: data 
         })
     } catch (error) {
@@ -20,7 +21,7 @@ export const addPosts = (post) => async (dispatch) => {
     try {
         const {data} = await api.createPost(post);
         dispatch({
-            type: 'CREATE',
+            type: ACTION_TYPES[1],
             payload: data
         })
     } catch (error) {
@@ -33,7 +34,7 @@ export const updatePosts = (id, post) => async (dispatch) => {
     try {
         const {data} = await api.updatePost(id, post);
         dispatch({
-            type: 'UPDATE',
+            type: ACTION_TYPES[2],
             payload: data
         })
     } catch (error) {
@@ -46,7 +47,7 @@ export const deletePost = (id) => async (dispatch) => {
     try {
         await api.deletePost(id);
         dispatch({
-            type: 'DELETE',
+            type: ACTION_TYPES[3],
             payload: id,
         })
     } catch (error) {
@@ -59,7 +60,7 @@ export const likePost = (id) => async (dispatch) => {
     try {
         const {data} = await api.likePost(id);
         dispatch({
-            type: 'LIKE_POST',
+            type: ACTION_TYPES[4],
             payload: data
         })
     } catch (error) {
