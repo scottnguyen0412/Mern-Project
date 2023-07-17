@@ -14,3 +14,11 @@
 .image {
     margin-left: 15px;
 }
+
+@media (max-width: 600px) {
+    .mainContain {
+        /* display: flex; */
+        flex-direction: column-reverse !important;
+        
+    }
+}

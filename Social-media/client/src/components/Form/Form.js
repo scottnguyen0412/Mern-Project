@@ -30,12 +30,23 @@ const Form = ({ currentId, setCurrentId }) => {
   // Handle change input
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setPostData({
-      // ...postData được sử dụng để sao chép toàn bộ thuộc tính của state postData hiện tại
-      // vào một đối tượng mới.
-      ...postData,
-      [name]: value,
-    });
+    if(name === 'tags')
+    {
+      console.log('tagss');
+      setPostData({
+        ...postData,
+        // tách chuỗi value từ string thành một mảng các giá trị riêng biệt,
+        // sử dụng dấu ',' để làm dấu phân tách
+        [name]: value.split(','),
+      });
+    } else {
+      setPostData({
+        // ...postData được sử dụng để sao chép toàn bộ thuộc tính của state postData hiện tại
+        // vào một đối tượng mới.
+        ...postData,
+        [name]: value,
+      });
+    }
   };
 
   // Handle submit form

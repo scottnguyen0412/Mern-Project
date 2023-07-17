@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import {
   Card,
@@ -23,7 +23,12 @@ const Post = ({posts, setCurrentId}) => {
   // const {posts} = props
 
   const dispatch = useDispatch();
+  const [likeCount, setLikeCount] = useState(posts.likeCount);
 
+  const handleCLickLike = async () => {
+    await dispatch(likePost(posts._id));
+    setLikeCount(likeCount + 1);
+  };
   return (
     <Card className="card">
       <CardMedia className="media" 
@@ -45,7 +50,7 @@ const Post = ({posts, setCurrentId}) => {
         <div className="details">
           <Typography variant="body2" color="textSecondary">
             {posts.tags.map((tag) => {
-              return `#${tag}`
+              return `#${tag} `
             })}
           </Typography>
         </div>
@@ -53,15 +58,15 @@ const Post = ({posts, setCurrentId}) => {
               {posts.title}
           </Typography>
         <CardContent>
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="body2" color="textSecondary" component="p">
               {posts.message}
           </Typography>
         </CardContent>
         <CardActions className="cardActions">
-            <Button size="small" color="primary" onClick={() => dispatch(likePost(posts._id))}>
+            <Button size="small" color="primary" onClick={handleCLickLike}>
                 <ThumbUpOffAlt fontSize="small"/>
-                Like
-                {posts.likeCount}
+                Like &nbsp;
+                {likeCount}
             </Button>
             <Button size="small" color="primary" onClick={() => dispatch(deletePost(posts._id))}>
                 <DeleteOutline fontSize="small"/>
