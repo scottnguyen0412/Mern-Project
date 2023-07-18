@@ -1,0 +1,25 @@
+.paperAuth {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
+.avatar {
+    margin: 8px;
+    background-color: #9c27b0;
+}
+
+.form {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.submit {
+    margin: 24px 0 16px !important;
+}
+
+.googleButton {
+    margin-bottom: 1rem;
+}
