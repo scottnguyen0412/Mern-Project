@@ -2,19 +2,29 @@ import React, { useEffect, useState } from "react";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@mui/material";
 import "./style.css";
 import memories from "../imgs/memories.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import {useDispatch} from 'react-redux';
 
 const Navbar = () => {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const navigate = useNavigate('/');
+  // current location object. Cập nhật tất cả thay đổi của Url ngay lập tức
+  const location = useLocation();
 
-  const[user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-
+  const dispatch = useDispatch();
   // console.log(user);
+
+  const handleLogout = () => {
+    dispatch({type: 'LOGOUT', });
+    navigate('/');
+    setUser(null)
+  }
 
   useEffect(() => {
     // get token from localstorage
     const token = user?.token;
-    setUser(JSON.parse(localStorage.getItem('profile')));
-  },[]);
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
 
   return (
     <AppBar className="appBar" position="static" color="inherit">
@@ -43,7 +53,12 @@ const Navbar = () => {
             <Typography className="userName" variant="h6">
               {user.result.name}
             </Typography>
-            <Button variant="contained" className="logout" color="secondary">
+            <Button
+              variant="contained"
+              className="logout"
+              color="secondary"
+              onClick={handleLogout}
+            >
               Logout
             </Button>
           </div>

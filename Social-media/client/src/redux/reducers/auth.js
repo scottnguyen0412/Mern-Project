@@ -6,8 +6,9 @@ const authReducers = (state = {authData: null}, action) => {
             // convert string to object and store to localstorage
             localStorage.setItem('profile', JSON.stringify({...action?.data}));
             return {...state, authData: action?.data};
-        // case ACTION_TYPES[6]:
-
+        case ACTION_TYPES[6]:
+            localStorage.clear();
+            return {...state, authData: null};
         default:
             return state;
     }
