@@ -1,10 +1,10 @@
 .appBar {
-    display: flex;
-    flex-direction: row;
+    display: flex !important;
+    flex-direction: row !important;
     border-radius: 15px;
-    margin: 30px 0;
-    justify-content: center;
-    align-items: center;
+    margin: 30px 0 !important;
+    justify-content: center !important;
+    align-items: center !important;
 }
 
 .heading {

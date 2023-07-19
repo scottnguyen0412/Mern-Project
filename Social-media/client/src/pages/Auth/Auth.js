@@ -11,12 +11,21 @@ import {
 import "./style.css";
 import { LockOutlined } from "@mui/icons-material";
 import Input from "../../components/Input/Input";
-import { Link } from "react-router-dom";
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { useDispatch } from "react-redux";
+import jwt_decode from "jwt-decode";
+import {useNavigate} from 'react-router-dom';
+
 
 const Auth = () => {
+
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const[isSignUp, setIsSignUp] = useState(false)
+  
+  const dispatch = useDispatch();
   
   const handleSubmit = () => {};
 
@@ -35,6 +44,24 @@ const Auth = () => {
     // giữa 2 trang đăng kí và đăng nhập 
     setShowPassword(false)
   }
+
+  const onSuccess = async (res) => {
+    const result = jwt_decode(res.credential)
+    const token = res.credential
+    // console.log(decoded);
+    try {
+      dispatch({type: 'AUTH', data: {result, token}})
+      navigate('/');
+    } catch (error) {
+      
+    }
+  }
+
+  const onError= () => {
+    console.log('Login Failed');
+  }
+
+  
   return (
     <Container component="main" maxWidth="xs">
       <Paper className="paperAuth" elevation={3}>
@@ -82,6 +109,10 @@ const Auth = () => {
           <Button type="submit" fullWidth variant="contained" color="primary" className="submit">
             {isSignUp ? 'Sign Up' : 'Sign In'}
           </Button>
+          <GoogleLogin
+            onSuccess={onSuccess}
+            onError={onError}
+          />
           <Grid container justify="flex-end" > 
               <Grid item>
                   <Button onClick={switchMode}>

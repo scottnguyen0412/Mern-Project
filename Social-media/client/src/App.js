@@ -7,6 +7,7 @@ import Auth from "./pages/Auth/Auth";
 
 
 function App() {
+
   return (
     <BrowserRouter>
       <Container maxWidth="lg">

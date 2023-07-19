@@ -1,21 +1,27 @@
 .brandContainer {
-    display: 'flex';
+    display: flex;
     align-items: center;
 }
 
 .toolbar {
-    display: 'flex';
-    justify-content: 'flex-end';
-    width: '400px';
+    display: flex;
+    justify-content: flex-end;
+    width: 400px;
   }
 
 .profile {
-    display: 'flex';
-    justify-content: 'space-between';
-    width: '400px';
-  },
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    align-items: center;
+  }
 
 .userName {
-    display: 'flex';
-    align-items: 'center'
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.logout {
+  margin-left: 20px;
 }

@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@mui/material";
 import "./style.css";
 import memories from "../imgs/memories.png";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const user = null;
+
+  const[user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+
+  // console.log(user);
+
+  useEffect(() => {
+    // get token from localstorage
+    const token = user?.token;
+    setUser(JSON.parse(localStorage.getItem('profile')));
+  },[]);
 
   return (
     <AppBar className="appBar" position="static" color="inherit">

@@ -7,7 +7,7 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import { reducers } from "./redux/reducers";
 import './index.css'
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // const store: đối tượng store của Redux, lưu trữ trạng thái của ứng dụng và cho phép bạn truy xuất và cập nhật trạng thái đó.
 // createStore(reducers, compose(applyMiddleware(thunk))):
@@ -18,9 +18,11 @@ const store = createStore(reducers, compose(applyMiddleware(thunk)))
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <GoogleOAuthProvider clientId ={process.env.REACT_APP_CLIENT_ID}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
 
