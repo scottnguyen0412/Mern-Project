@@ -15,7 +15,15 @@ import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
 import {useNavigate} from 'react-router-dom';
+import {signin, signup} from '../../redux/actions/auth';
 
+const initValueForm = {
+   firstName: '',
+   lastName: '',
+   email: '',
+   password: '',
+   confirmPassword: '',
+}
 
 const Auth = () => {
 
@@ -24,12 +32,24 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const[isSignUp, setIsSignUp] = useState(false)
+
+  const[formData, setFormData] = useState(initValueForm);
   
   const dispatch = useDispatch();
   
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      if(isSignUp) {
+        dispatch(signup(formData, navigate))
+      } else {
+        dispatch(signin(formData, navigate))
+      }
+  };
 
-  const handleChange = () => {};
+  // handle input form
+  const handleChange = (e) => {
+    setFormData({...formData, [e.target.name]: e.target.value})
+  };
 
   // Handle Show/hide password
   const handleShowPassword = () => {
