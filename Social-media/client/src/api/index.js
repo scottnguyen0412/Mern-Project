@@ -1,24 +1,29 @@
 import axios from "axios";
 
-const urlAPI = "http://localhost:3002/posts";
+const API = axios.create({baseURL: "http://localhost:5001"});
+const postUrl = "/posts"
 
 export const fetchAllPosts = () => {
-  return axios.get(urlAPI);
+  return API.get(postUrl);
 };
 
 export const createPost = (newPost) => {
-  return axios.post(`${urlAPI}/createPost`, newPost);
+  return API.post(`${postUrl}/createPost`, newPost);
 }
 
 export const updatePost = (id, updatePost) => {
-  return axios.patch(`${urlAPI}/updatePost/${id}`, updatePost); 
+  return API.patch(`${postUrl}/updatePost/${id}`, updatePost); 
 }
 
 export const deletePost = (id) => {
-  return axios.delete(`${urlAPI}/deletePost/${id}`);
+  return API.delete(`${postUrl}/deletePost/${id}`);
 }
 
 export const likePost = (id) => {
-  return axios.patch(`${urlAPI}/post/${id}/likePost`);
+  return API.patch(`${postUrl}/post/${id}/likePost`);
 }
+
+// api for login and logout
+export const signIn = (formData) => API.post('/user/login', formData);
+export const signUp = (formData) => API.post('/user/register', formData);
 

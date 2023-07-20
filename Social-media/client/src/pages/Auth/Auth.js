@@ -11,7 +11,7 @@ import {
 import "./style.css";
 import { LockOutlined } from "@mui/icons-material";
 import Input from "../../components/Input/Input";
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
 import {useNavigate} from 'react-router-dom';
@@ -124,7 +124,7 @@ const Auth = () => {
               type={showPassword ? "text" : "password"}
               handleShowPassword={handleShowPassword}
             />
-            {isSignUp && <Input name="confirmPassword" label="Confirm Password" handleChange={handleChange}/>}
+            {isSignUp && <Input name="confirmPassword" label="Confirm Password" handleChange={handleChange} type={showPassword ? "text" : "password"}/>}
           </Grid>
           <Button type="submit" fullWidth variant="contained" color="primary" className="submit">
             {isSignUp ? 'Sign Up' : 'Sign In'}
