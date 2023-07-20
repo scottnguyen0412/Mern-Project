@@ -7,7 +7,7 @@ import {getPosts} from '../../redux/actions/posts';
 
 const Home = () => {
   // Share current Id between post and form
-  const [currentId, setCurrentId] = useState(null);
+  const [currentId, setCurrentId] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {

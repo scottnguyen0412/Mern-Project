@@ -7,7 +7,8 @@ const auth = async (req, res, next) => {
         // Bearer là phần tử đầu tiên
         // <token> là phần tử thứ 2
         // vì vậy [1] để trả về token
-        const token = res.headers.authorization.split(" ")[1];
+        // console.log(req.headers);
+        const token = req.headers.authorization.split(" ")[1];
         const isCustomAuth = token.length < 500;
         
         let decodedData;

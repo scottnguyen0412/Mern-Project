@@ -8,7 +8,6 @@ import { addPosts, updatePosts } from "../../redux/actions/posts";
 const Form = ({ currentId, setCurrentId }) => {
   // create in
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -18,6 +17,8 @@ const Form = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) =>
     currentId ? state.posts.find((post) => post._id === currentId) : null
   );
+
+  const user = JSON.parse(localStorage.getItem('profile'));
 
   // tự động render component giá trị mới
   useEffect(() => {
@@ -52,19 +53,29 @@ const Form = ({ currentId, setCurrentId }) => {
   // Handle submit form
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (currentId) {
-      dispatch(updatePosts(currentId, postData));
+    if (currentId === 0) {
+      // sao chép các giá trị sang object mới và ghi đè lên chúng
+      dispatch(addPosts({...postData, name: user?.result?.name}));
     } else {
-      dispatch(addPosts(postData));
+      dispatch(updatePosts(currentId, {...postData, name: user?.result?.name}));
     }
 
     handleClear();
   };
 
+  if(!user?.result?.name) {
+    return (
+      <Paper className="paper">
+        <Typography variant="h6" align="center" >
+          Please Sign In before create your own memories and like other's memories
+        </Typography>
+      </Paper>
+    )
+  }
+
   const handleClear = () => {
     setCurrentId(null);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
@@ -81,14 +92,6 @@ const Form = ({ currentId, setCurrentId }) => {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">{currentId ? 'Edit':'Creating'} a Memory</Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={handleChange}
-        />
         <TextField
           name="title"
           variant="outlined"

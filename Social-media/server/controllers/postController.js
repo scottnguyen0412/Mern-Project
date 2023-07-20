@@ -15,7 +15,8 @@ export const getPost = async (req, res) => {
 
 export const createPost = async (req, res) => {
     const post = req.body;
-    const newPost = new PostMessage(post);
+    // Xác thực người dùng tạo post là ai
+    const newPost = new PostMessage({...post, creator: req.userId, created_at: new Date().toISOString()});
     try {
         await newPost.save();
 

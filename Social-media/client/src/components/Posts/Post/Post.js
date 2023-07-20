@@ -36,7 +36,7 @@ const Post = ({posts, setCurrentId}) => {
         title={posts.title} />
         <div className="overlay">
           <Typography variant="h6">
-            {posts.creator}
+            {posts.name}
           </Typography>
           <Typography variant="body2">
             {moment(posts.created_at).fromNow()}
