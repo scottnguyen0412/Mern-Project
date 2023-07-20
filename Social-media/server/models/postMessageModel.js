@@ -8,9 +8,9 @@ const postSchema = mongoose.Schema({
     tags: [String],
     selectedFile: String,
     // Nếu không có like nào thì giá trị mặc định sẽ là 0
-    likeCount: {
-        type: Number,
-        default: 0
+    likes: {
+        type: [String],
+        default: [],
     },
     created_at: {
         type: Date,
