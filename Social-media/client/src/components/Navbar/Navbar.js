@@ -4,6 +4,7 @@ import "./style.css";
 import memories from "../imgs/memories.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {useDispatch} from 'react-redux';
+import jwt_decode from "jwt-decode";
 
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
@@ -23,6 +24,17 @@ const Navbar = () => {
   useEffect(() => {
     // get token from localstorage
     const token = user?.token;
+
+    if(token) {
+      const decodedToken = jwt_decode(token);
+      // // check token is expired or not
+      // // *1000 chuyển đổi từ số giây sang mili giây
+      if(decodedToken.exp * 1000 < new Date().getTime()) {
+        handleLogout();
+      }
+      console.log(decodedToken.exp *1000);
+      console.log(new Date().getTime());
+    }
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
 

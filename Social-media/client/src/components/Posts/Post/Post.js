@@ -69,17 +69,20 @@ const Post = ({ posts, setCurrentId }) => {
           {moment(posts.created_at).fromNow()}
         </Typography>
       </div>
-      <div className="overlay2">
-        <Button
-          style={{ color: "white" }}
-          size="small"
-          onClick={() => {
-            setCurrentId(posts._id);
-          }}
-        >
-          <MoreHoriz fontSize="default" />
-        </Button>
-      </div>
+      {/* Chỉ có user tạo post mới có quyền edit post của chính họ */}
+      {user?.result?.sub === posts?.creator || user?.result?._id === posts?.creator && 
+        <div className="overlay2">
+          <Button
+            style={{ color: "white" }}
+            size="small"
+            onClick={() => {
+              setCurrentId(posts._id);
+            }}
+          >
+            <MoreHoriz fontSize="default" />
+          </Button>
+        </div>
+      }
       <div className="details">
         <Typography variant="body2" color="textSecondary">
           {posts.tags.map((tag) => {
@@ -99,14 +102,17 @@ const Post = ({ posts, setCurrentId }) => {
         <Button size="small" color="primary" onClick={handleCLickLike} disabled={!user?.result}>
           <Likes/>
         </Button>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => dispatch(deletePost(posts._id))}
-        >
-          <DeleteOutline fontSize="small" />
-          Delete
-        </Button>
+        {/* Check user nào tạo ra post thì chỉ có user đó được xoá post */}
+        {user?.result?.sub === posts?.creator || user?.result?._id === posts?.creator && 
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => dispatch(deletePost(posts._id))}
+          >
+            <DeleteOutline fontSize="small" />
+            Delete
+          </Button>
+        }
       </CardActions>
     </Card>
   );
