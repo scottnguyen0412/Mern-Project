@@ -70,9 +70,9 @@ export const likePost = async(req, res) => {
     const post = await PostMessage.findById(id);
     
     // check user like this post or not
-    const index = post.likes.findIndex((id) => {
+    const index = post.likes.findIndex((id) => 
         id === String(req.userId)
-    })
+    )
 
     if(index === -1) {
         // like the post
@@ -84,5 +84,5 @@ export const likePost = async(req, res) => {
  
     // Chỉ update likeCount trong PostMessage table chứ không phải toàn bộ bản
     const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {new: true});
-    res.status(200).json(updatePost);
+    res.status(200).json(updatedPost);
 }
