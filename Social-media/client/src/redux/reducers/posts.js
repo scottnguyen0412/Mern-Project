@@ -15,6 +15,8 @@ export default (posts = [], action) => {
             return posts.filter((post) => post._id !== action.payload)
         case ACTION_TYPES[4]:
             return posts.map((post) => post._id === action.payload._id ? action.payload : post)
+        case ACTION_TYPES[7]:
+            return action.payload
         default:
             return posts;
     }

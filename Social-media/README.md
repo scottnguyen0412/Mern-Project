@@ -24,6 +24,7 @@
 <li>npm i react-google-login --legacy-peer-deps</li>
 <li>npm i @mui/icons-material</li>
 <li>npm i @react-oauth/google</li>
+<li>npm install mui-chips-input (multiple input tags)</li>
 </ul>
 
 <h3>MongoDb cloud: <link href="https://cloud.mongodb.com/v2#/org/64ad174b5a555f386d7195e5/projects">https://cloud.mongodb.com/v2#/org/64ad174b5a555f386d7195e5/projects</link></h3>

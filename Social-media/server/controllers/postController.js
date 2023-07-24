@@ -86,3 +86,19 @@ export const likePost = async(req, res) => {
     const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {new: true});
     res.status(200).json(updatedPost);
 }
+
+// search post
+export const getPostBySearch = async (req, res) => {
+    // get query 
+    const {searchQuery, tags} = req.query
+    try {
+        // 'i' sử dụng để cho phép tìm kiếm không phân biệt chữ hoa/chữ thường
+        const title = new RegExp(searchQuery, 'i')
+        // $or: cho phép ta tìm kiếm các bản ghi trong cơ sở dữ liệu dựa trên nhiều điều kiện tại cùng một thời điểm.
+        // $in: được sử dụng để tìm kiếm các giá trị trong một mảng.
+        const posts = await PostMessage.find({$or: [{title}, {tags: {$in: tags.split(',') } }]})
+        res.status(200).json({data: posts});
+    } catch (error) {
+        res.status(404).json({message: error.message})
+    }
+}
