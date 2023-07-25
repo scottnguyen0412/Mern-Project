@@ -6,5 +6,7 @@ export const ACTION_TYPES = [
   "LIKE_COUNT",
   "AUTH",
   "LOGOUT",
-  "FETCH_BY_SEARCH"
+  "FETCH_BY_SEARCH",
+  "START_LOADING",
+  "ENG_LOADING"
 ];

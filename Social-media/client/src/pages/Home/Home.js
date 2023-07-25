@@ -68,10 +68,6 @@ const Home = () => {
     setTags(tags.filter((item) => item !== tagtoDel));
   }
 
-  useEffect(() => {
-    // send action
-    dispatch(getPosts());
-  }, [dispatch]);
 
   return (
     <Grow in>
@@ -107,9 +103,12 @@ const Home = () => {
               <Button onClick={SearchPost} className="searchButton" variant="contained" color="primary">Search</Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
-            <Paper className="pagination" elevation={6}>
-              <Paginations />
-            </Paper>
+            {/* chỉ show pagination khi user không search và filter by tags */}
+            {(!searchQuery && !tags.length) && (
+              <Paper className="pagination" elevation={6}>
+                <Paginations page={page} />
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Container>

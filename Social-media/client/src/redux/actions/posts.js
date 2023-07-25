@@ -4,13 +4,16 @@ import {ACTION_TYPES} from '../../constants/actionTypes';
 
 // Action Creators
 // fetch post
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
     try {
-        const {data} = await api.fetchAllPosts();
+        dispatch({type: ACTION_TYPES[8]})
+        const {data} = await api.fetchAllPosts(page);
+        console.log(data);
         dispatch({
             type: ACTION_TYPES[0],
             payload: data 
         })
+        dispatch({type: ACTION_TYPES[9]})
     } catch (error) {
         console.error(error.message);
     } 
@@ -19,11 +22,13 @@ export const getPosts = () => async (dispatch) => {
 // search by post
 export const getPostBySearch = (searchQuery) => async(dispatch) => {
     try {
+        dispatch({type: ACTION_TYPES[8]})
         const {data: {data}} = await api.fetchByPost(searchQuery);
         dispatch({
             type: ACTION_TYPES[7],
             payload: data 
         })
+        dispatch({type: ACTION_TYPES[9]})
     } catch (error) {   
         console.log(error);
     }
@@ -32,11 +37,13 @@ export const getPostBySearch = (searchQuery) => async(dispatch) => {
 // create new post
 export const addPosts = (post) => async (dispatch) => {
     try {
+        dispatch({type: ACTION_TYPES[8]})
         const {data} = await api.createPost(post);
         dispatch({
             type: ACTION_TYPES[1],
             payload: data
         })
+        dispatch({type: ACTION_TYPES[9]})
     } catch (error) {
         console.error(error);
     }

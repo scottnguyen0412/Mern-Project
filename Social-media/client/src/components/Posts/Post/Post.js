@@ -25,7 +25,8 @@ const Post = ({ posts, setCurrentId }) => {
   const user = JSON.parse(localStorage.getItem('profile'));
 
   const dispatch = useDispatch();
-  const [likeCount, setLikeCount] = useState(posts.likeCount);
+  // const [likeCount, setLikeCount] = useState(posts.likeCount);
+  // console.log(user?.result?._id === posts?.creator);
 
   const handleCLickLike = async () => {
     await dispatch(likePost(posts._id));
@@ -70,7 +71,10 @@ const Post = ({ posts, setCurrentId }) => {
         </Typography>
       </div>
       {/* Chỉ có user tạo post mới có quyền edit post của chính họ */}
-      {user?.result?.sub === posts?.creator || user?.result?._id === posts?.creator && 
+      {/* kiểm tra user?.result && posts?.creator để đảm bảo rằng 
+          cả hai giá trị này đều tồn tại trước khi thực hiện so sánh. 
+      */}
+      {user?.result && posts?.creator && (user?.result._id === posts.creator || user?.result.sub === posts.creator) && (
         <div className="overlay2">
           <Button
             style={{ color: "white" }}
@@ -82,7 +86,7 @@ const Post = ({ posts, setCurrentId }) => {
             <MoreHoriz fontSize="default" />
           </Button>
         </div>
-      }
+      )}
       <div className="details">
         <Typography variant="body2" color="textSecondary">
           {posts.tags.map((tag) => {
