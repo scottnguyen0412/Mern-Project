@@ -1,0 +1,60 @@
+.media-detail {
+    border-radius: 20px !important;
+    object-fit: cover !important;
+    width: 100% !important;
+    max-width: 600px !important;
+    border: 2px solid rgb(55, 56, 64);
+}
+
+.cards {
+    display: flex !important;
+    width: 100% !important;
+}
+
+.sections {
+    border-radius: 20px !important;
+    margin: 10px !important;
+    flex: 1;
+}
+
+.imageSection {
+    margin-left: 20px !important;
+}
+
+.recommendedPosts {
+    display: flex;
+}
+
+.loadingPaper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 15px;
+    height: 39vh;
+}
+
+.commentsOuterContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.commentsInnerContainer {
+    height: 200px;
+    overflow: auto;
+    margin-right: 30px;
+}
+
+@media (max-width: 600px) {
+    .cards {
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    .imageSection {
+        margin-left: 0;
+    }
+
+    .recommendedPosts {
+        flex-direction: column;
+    }
+}

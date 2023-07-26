@@ -14,6 +14,10 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
+export const fetchPost = (id) => {
+  return API.get(`${postUrl}/detail/${id}`);
+}
+
 export const fetchAllPosts = (page) => {
   return API.get(`${postUrl}?page=${page}`);
 };

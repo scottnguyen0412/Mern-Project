@@ -7,6 +7,7 @@ import {
   CardMedia,
   Button,
   Typography,
+  ButtonBase
 } from "@mui/material";
 import {
   ThumbUpAlt,
@@ -18,8 +19,10 @@ import {
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../redux/actions/posts";
+import {useNavigate} from 'react-router-dom'
 
 const Post = ({ posts, setCurrentId }) => {
+  const navigate = useNavigate();
   // Có thể sử dụng cách này
   // const {posts} = props
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -57,6 +60,10 @@ const Post = ({ posts, setCurrentId }) => {
       </>
     );
   };
+
+  const openPost = () => {
+    navigate(`/posts/${posts._id}`)
+  }
   return (
     <Card className="card" raised elevation={6}>
       <CardMedia
@@ -65,7 +72,7 @@ const Post = ({ posts, setCurrentId }) => {
         title={posts.title}
       />
       <div className="overlay">
-        <Typography variant="h6">{posts.name}</Typography>
+        <Typography style={{cursor:'pointer'}} variant="h6" onClick={openPost}>{posts.name}</Typography>
         <Typography variant="body2">
           {moment(posts.created_at).fromNow()}
         </Typography>

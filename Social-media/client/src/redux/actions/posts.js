@@ -3,6 +3,21 @@ import * as api from '../../api';
 import {ACTION_TYPES} from '../../constants/actionTypes';
 
 // Action Creators
+export const getPost = (id) => async (dispatch) => {
+    try {
+        dispatch({type: ACTION_TYPES[8]})
+        const {data} = await api.fetchPost(id);
+        // console.log(data);
+        dispatch({
+            type: ACTION_TYPES[10],
+            payload: {post: data}
+        })
+        dispatch({type: ACTION_TYPES[9]})
+    } catch (error) {
+        console.error(error.message);
+    } 
+}
+
 // fetch post
 export const getPosts = (page) => async (dispatch) => {
     try {

@@ -8,5 +8,6 @@ export const ACTION_TYPES = [
   "LOGOUT",
   "FETCH_BY_SEARCH",
   "START_LOADING",
-  "ENG_LOADING"
+  "ENG_LOADING",
+  "FETCH_POST"
 ];

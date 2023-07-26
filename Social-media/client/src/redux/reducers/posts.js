@@ -30,6 +30,8 @@ export default (state = {isLoading: true, posts: []}, action) => {
       )};
     case ACTION_TYPES[7]:
       return {...state, posts: action.payload};
+    case ACTION_TYPES[10]:
+      return {...state, post: action.payload.post};
     default:
       return state;
   }
