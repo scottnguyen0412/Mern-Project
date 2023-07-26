@@ -50,15 +50,16 @@ export const getPostBySearch = (searchQuery) => async(dispatch) => {
 }
  
 // create new post
-export const addPosts = (post) => async (dispatch) => {
+export const addPosts = (post, navigate) => async (dispatch) => {
     try {
         dispatch({type: ACTION_TYPES[8]})
         const {data} = await api.createPost(post);
+        navigate(`/posts/${data._id}`)
         dispatch({
             type: ACTION_TYPES[1],
             payload: data
         })
-        dispatch({type: ACTION_TYPES[9]})
+        // dispatch({type: ACTION_TYPES[9]})
     } catch (error) {
         console.error(error);
     }

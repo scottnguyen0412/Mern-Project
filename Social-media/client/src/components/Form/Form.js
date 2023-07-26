@@ -4,6 +4,7 @@ import { TextField, Button, Typography, Paper } from "@mui/material";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { addPosts, updatePosts } from "../../redux/actions/posts";
+import { useNavigate } from "react-router-dom";
 
 const Form = ({ currentId, setCurrentId }) => {
   // create in
@@ -50,13 +51,15 @@ const Form = ({ currentId, setCurrentId }) => {
       });
     }
   };
+  const navigate = useNavigate();
 
   // Handle submit form
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentId === 0) {
       // sao chép các giá trị sang object mới và ghi đè lên chúng
-      dispatch(addPosts({...postData, name: user?.result?.name}));
+      // sau khi tạo post xong chuyển đến trang detail
+      dispatch(addPosts({...postData, name: user?.result?.name}, navigate));
     } else {
       dispatch(updatePosts(currentId, {...postData, name: user?.result?.name}));
     }
