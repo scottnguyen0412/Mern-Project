@@ -31,26 +31,39 @@ const Post = ({ posts, setCurrentId }) => {
   // const [likeCount, setLikeCount] = useState(posts.likeCount);
   // console.log(user?.result?._id === posts?.creator);
 
+  const [likes, setLikes] = useState(posts?.likes);
+
+  const hasLikePost = posts?.likes.find(
+    (like) => like === (user?.result?.sub || user?.result?._id))
+  const user_id = user?.result.sub || user?.result?._id
+
+  // async bởi vì nó chứa một hoặc nhiều lệnh có thể gây ra việc gửi yêu cầu tới server
   const handleCLickLike = async () => {
-    await dispatch(likePost(posts._id));
+    dispatch(likePost(posts._id));
+    if(hasLikePost) {
+      setLikes(posts.likes.filter((id) => id !== user_id))
+    } else {
+      setLikes([...posts.likes, user_id])
+    }
   };
+
 
   // dísplay and count like of user
   const Likes = () => {
     if (posts?.likes?.length > 0) {
-      return posts?.likes.find(
+      return likes.find(
         (like) => like === (user?.result?.sub || user?.result?._id)
       ) ? (
         <>
           <ThumbUpAlt fontSize="small" />
-          {posts.likes.length > 2
-            ? `You and ${posts.likes.length - 1} others`
-            : `${posts.likes.length} like${posts.likes.length > 1 ? "s" : ""}`}
+          {likes.length > 2
+            ? `You and ${likes.length - 1} others`
+            : `${likes.length} like${likes.length > 1 ? "s" : ""}`}
         </>
       ) : (
         <>
-          <ThumbUpAltOutlined fontSize="small" />&nbsp;{posts.likes.length}&nbsp;
-          {posts.likes.length === 1 ? "Like" : "Likes"}
+          <ThumbUpAltOutlined fontSize="small" />&nbsp;{likes.length}&nbsp;
+          {likes.length === 1 ? "Like" : "Likes"}
         </>
       );
     }
