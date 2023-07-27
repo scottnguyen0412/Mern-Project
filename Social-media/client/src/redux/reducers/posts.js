@@ -32,6 +32,15 @@ export default (state = {isLoading: true, posts: []}, action) => {
       return {...state, posts: action.payload};
     case ACTION_TYPES[10]:
       return {...state, post: action.payload.post};
+    case ACTION_TYPES[11]:
+      return {...state, posts: state.posts.map((post) => {
+        // Với mỗi post trong mảng cũ, nếu ID của post trùng với ID của post trong payload của action, 
+        // nghĩa là action này đã cập nhật post mới nhất
+          if(post._id === action.payload._id) {
+            return action.payload
+          }
+          return post;
+      })}
     default:
       return state;
   }

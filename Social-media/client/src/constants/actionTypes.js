@@ -9,5 +9,6 @@ export const ACTION_TYPES = [
   "FETCH_BY_SEARCH",
   "START_LOADING",
   "ENG_LOADING",
-  "FETCH_POST"
+  "FETCH_POST",
+  "COMMENT"
 ];

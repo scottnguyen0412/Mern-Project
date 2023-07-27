@@ -5,6 +5,7 @@ import './style.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getPost, getPostBySearch } from '../../redux/actions/posts';
+import CommentSection from './CommentSection';
 const PostDetails = () => {
   const {post, posts, isLoading} = useSelector((state) => state.posts);
   console.log(posts);
@@ -25,7 +26,7 @@ const PostDetails = () => {
   //Lọc post dựa trên điều kiện _id của bài viết trong posts 
   // khác với _id của bài viết hiện tại đang được hiển thị 
   const recommendPosts = posts.filter((item) => {
-    return item._id !== post._id
+    return post?._id && item._id !== post._id
   })
 
   if(isLoading || !post) {
@@ -60,7 +61,7 @@ const PostDetails = () => {
           <Divider style={{ margin: '20px 0' }} />
           <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
           <Divider style={{ margin: '20px 0' }} />
-          {/* <CommentSection post={post} /> */}
+          <CommentSection post={post} />
           <Divider style={{ margin: '20px 0' }} />
         </div>
         <div className="imageSection">
