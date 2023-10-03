@@ -37,7 +37,7 @@ function App() {
         <Route element={<Layout />}>
           <Route
             path="/"
-            element={<Navigate to={"/find-jobs"} replace={true} />}
+            element={<Navigate to="/find-jobs" replace={true} />}
           />
           <Route path="/find-jobs" element={<FindJob />} />
           <Route path="/companies" element={<Companies />} />
