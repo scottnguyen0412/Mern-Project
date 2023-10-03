@@ -39,6 +39,7 @@ const Footer = () => {
                     <Link
                       to="/"
                       className="text-gray-300 text-sm hover:text-white"
+                      key={idx}
                     >
                       {item}
                     </Link>

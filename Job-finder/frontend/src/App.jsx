@@ -10,10 +10,13 @@ import {
   UploadJob,
   UserProfile,
 } from "./pages";
+import { useSelector } from "react-redux";
 
 function Layout() {
   // check user logged in or not
-  const user = true;
+  const user = useSelector((state) => state.user);
+
+  console.log(user);
   // lấy vị trí hiện tại của user trong ứng dụng
   const location = useLocation();
 
