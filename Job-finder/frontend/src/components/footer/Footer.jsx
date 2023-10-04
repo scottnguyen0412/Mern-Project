@@ -57,7 +57,7 @@ const Footer = () => {
           <div className="container mx-auto px-5 pt-6 pb-8 flex flex-wrap items-center justify-between">
             <div className="w-full md:w-2/4 lg:w-1/3 h-16 flex items-center justify-center md:justify-start">
               <TextInput
-                styles="w-full flex-grow md:w-40 2xl:w-64 bg-gray-100 sm:mr-4 md-2 text-slate-500"
+                styles="w-full flex-grow 2xl:w-64 bg-gray-100 sm:mr-4 md-2 text-slate-500"
                 type="email"
                 placeholder="Email Address"
               />

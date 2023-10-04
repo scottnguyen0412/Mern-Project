@@ -67,9 +67,9 @@ const SignUp = ({ open, setOpen }) => {
                   >
                     {isRegister ? "Create New Account" : "Sign In"}
                   </Dialog.Title>
-                  <div className="w-full flex items-center justify-center py-4">
+                  <div className="w-full flex items-center justify-center py-4 gap-0.5">
                     <button
-                      className={`flex-1 px-4 py-2 rounded text-sm outline-none 
+                      className={`flex-1 px-4 py-2 rounded text-sm outline-none
                     ${
                       accountType === "seeker"
                         ? "bg-[#1d4fd862] text-blue-900 font-semibold"
