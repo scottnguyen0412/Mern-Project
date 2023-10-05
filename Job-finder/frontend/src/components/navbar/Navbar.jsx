@@ -122,10 +122,10 @@ const Navbar = () => {
           </div>
           <ul className="hidden lg:flex gap-10 text-base">
             <li>
-              <Link to="/">Find Job</Link>
+              <Link to="/find-jobs">Find Job</Link>
             </li>
             <li>
-              <Link to="/">Companies</Link>
+              <Link to="/companies">Companies</Link>
             </li>
             <li>
               <Link to="/upload-job">Upload Job</Link>
@@ -165,10 +165,10 @@ const Navbar = () => {
           className={`${isOpen ? "absolute flex bg-[#f7fdfd]" : "hidden"}
               container mx-auto lg:hidden flex-col pl-8 gap-3 py-5`}
         >
-          <Link to="/" onClick={handleCloseNavbar}>
+          <Link to="/find-jobs" onClick={handleCloseNavbar}>
             Find Job
           </Link>
-          <Link to="/" onClick={handleCloseNavbar}>
+          <Link to="/companies" onClick={handleCloseNavbar}>
             Companies
           </Link>
           <Link
@@ -177,7 +177,7 @@ const Navbar = () => {
           >
             {user?.accountType === "seeker" ? "Applications" : "Upload Job"}
           </Link>
-          <Link to="about-us" onClick={handleCloseNavbar}>
+          <Link to="/about-us" onClick={handleCloseNavbar}>
             About
           </Link>
 
