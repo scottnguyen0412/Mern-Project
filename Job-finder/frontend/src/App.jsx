@@ -54,7 +54,7 @@ function App() {
           />
 
           <Route path="/company-profile" element={<CompanyProfile />} />
-          <Route path="/company-file/:id" element={<CompanyProfile />} />
+          <Route path="/company-profile/:id" element={<CompanyProfile />} />
           <Route path="/upload-job" element={<UploadJob />} />
           <Route path="/job-details/:id" element={<JobDetail />} />
         </Route>
