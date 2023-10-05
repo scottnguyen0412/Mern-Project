@@ -10,6 +10,7 @@ import { useState } from "react";
 import CustomButton from "../CustomButton";
 import "../../utils/data";
 import { users } from "../../utils/data";
+import { useSelector } from "react-redux";
 
 function MenuList({ user, onClick }) {
   const handleLogout = () => {};
@@ -104,7 +105,7 @@ function MenuList({ user, onClick }) {
 }
 
 const Navbar = () => {
-  const user = users[1];
+  const user = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCloseNavbar = () => {
