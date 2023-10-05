@@ -4,8 +4,8 @@ import { BiBriefcaseAlt2 } from "react-icons/bi";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { BsStars } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Header, ListBox } from "../../components";
-import { jobTypes } from "../../utils/data";
+import { Header, JobCard, ListBox } from "../../components";
+import { jobs, jobTypes } from "../../utils/data";
 import { experience } from "../../utils/data";
 
 const FindJob = () => {
@@ -130,6 +130,20 @@ const FindJob = () => {
               <ListBox sort={sort} setSort={setSort} />
             </div>
           </div>
+          <div className="w-full flex flex-wrap gap-4">
+            {jobs.map((item, idx) => (
+              <JobCard job={item} key={idx} />
+            ))}
+          </div>
+
+          {numberPage > page && !isFetching && (
+            <div className="w-full flex items-center justify-center pt-16">
+              <CustomButton
+                title="Load More"
+                containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

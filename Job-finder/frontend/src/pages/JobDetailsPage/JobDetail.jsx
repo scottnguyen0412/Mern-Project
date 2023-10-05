@@ -1,7 +1,7 @@
 import React from "react";
 
 const JobDetail = () => {
-  return <div></div>;
+  return <div>details</div>;
 };
 
 export default JobDetail;
