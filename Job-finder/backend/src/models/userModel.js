@@ -62,6 +62,7 @@ userSchema.pre("save", async function() {
 })
 
 // compare password
+// Tự định nghĩa tên phương thức
 userSchema.methods.comparePassword = async function(userPassword) {
     const isMatch = await bcrypt.compare(userPassword, this.password);
     return isMatch;
