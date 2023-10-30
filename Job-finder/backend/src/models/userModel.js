@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: [6, "Password must be at least"],
+      minlength: [6, "Password must be at 6 least characters"],
       select: true,
     },
     accountType: {
@@ -55,7 +55,7 @@ userSchema.pre("save", async function() {
         return;
     }
 
-    const salt =  await bcrypt.getSalt(10);
+    const salt =  await bcrypt.genSalt(10);
     // Mật khẩu được băm bằng cách kết hợp với salt để tạo ra một chuỗi băm duy nhất
     // chuỗi băm sẽ được gán lại vào field password của user
     this.password = await bcrypt.hash(this.password, salt);
@@ -69,7 +69,7 @@ userSchema.methods.comparePassword = async function(userPassword) {
 }
 
 // JWT token
-userSchema.methods.createToken = async function() {
+userSchema.methods.createJWT = async function() {
     return JWT.sign({userId: this._id},
         process.env.JWT_SECRET_KEY,
         {expiresIn: '1d'});

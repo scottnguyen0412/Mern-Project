@@ -11,7 +11,7 @@ export const login = async (req, res, next) => {
         }
 
         // find user by email
-        const user = await Users.findOne({email}.select('+password'));
+        const user = await Users.findOne({email}).select('+password');
 
         if(!user) {
             next("Invalid email or password")
@@ -26,7 +26,7 @@ export const login = async (req, res, next) => {
         }
 
         user.password = undefined
-        const token = user.createJWT();
+        const token = await user.createJWT();
 
         res.status(201).json({
             success: true,
@@ -74,7 +74,7 @@ export const register = async (req, res, next) => {
             password
         })
 
-        const token = user.createJWT();
+        const token = await user.createJWT();
         res.status(201).send({
             success: true,
             message: "Account Created Successfully",
@@ -83,9 +83,10 @@ export const register = async (req, res, next) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
+                password: user.password,
                 accountType: user.accountType
             },
-            token
+            token: token
         })
     } catch (error) {
         console.log(error);
