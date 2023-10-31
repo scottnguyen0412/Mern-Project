@@ -229,3 +229,54 @@ export const getAllCompany = async (req, res, next) => {
         });
     }
 }
+
+// Get company job
+export const getCompanyJob = async (req, res, next) => {
+    const {search, sort} = req.body;
+    const id = req.body.user.userId;
+
+    try {
+        // condition for searching
+        const queryObject = {};
+    
+        if(search) {
+            // "i" đại diện cho tùy chọn không phân biệt chữ hoa chữ thường trong tìm kiếm.
+            queryObject.location = {$regex: search, $options: "i"};
+        }
+        
+        let sorting;
+        // sorting 
+        switch (sort) {
+            case "Newest":
+                sorting = "-createdAt";
+                break;
+            case "Oldest":
+                sorting = "createdAt";
+                break;
+            case "A-Z":
+                sorting = "name"
+                break;
+            case "Z-a":
+                sorting = "-name"
+                break;
+            default:
+                break;
+        }
+
+        let queryResult = await Companies.findById({_id: id}).populate({
+            path: "jobPosts",
+            options: {sorting}
+        })
+
+        const companies = await queryResult;
+        res.status(200).json({
+            success: true,
+            companies
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(404).json({
+            message: error.message
+        })
+    }
+}
