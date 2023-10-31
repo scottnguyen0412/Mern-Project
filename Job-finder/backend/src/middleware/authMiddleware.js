@@ -1,7 +1,7 @@
 import JWT from 'jsonwebtoken'
 
 const userAuth = async (req, res, next) => {
-    const authHandler = req?.headers?.authorization;
+    const authHandler = req?.headers?.authorization
     
     if(!authHandler || !authHandler?.startsWith("Bearer")) {
         next("Authentication Failed");
@@ -19,11 +19,13 @@ const userAuth = async (req, res, next) => {
 
         req.body.user = {
             userId: userToken.userId
-        }
+        };
 
-        next()
+        next();
     } catch (error) {
         console.log(error);
         next("Authentication Failed");
     }
 };
+
+export default userAuth;

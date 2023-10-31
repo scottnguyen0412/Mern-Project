@@ -27,7 +27,7 @@ export const login = async (req, res, next) => {
 
         user.password = undefined
         const token = await user.createJWT();
-
+        // console.log(token);
         res.status(201).json({
             success: true,
             message: "Login Successfully",

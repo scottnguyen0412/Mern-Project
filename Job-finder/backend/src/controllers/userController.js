@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Users from '../models/userModel';
+import Users from '../models/userModel.js';
 
 export const updateUser = async (req, res ,next) => {
 
@@ -43,7 +43,7 @@ export const updateUser = async (req, res ,next) => {
         user.password = undefined;
         res.status(200).json({
             success: true,
-            message: "User Updated Successfullt",
+            message: "User Updated Successfully",
             user,
             token
         })
@@ -51,5 +51,33 @@ export const updateUser = async (req, res ,next) => {
     } catch (error) {
         console.error(error);
         res.status(404).json({message: error.message});
+    }
+}
+
+export const getUser = async (req, res, next) => {
+    
+    try {
+        const id = req.body.user.userId
+
+        const user = await Users.findById({_id: id});
+        if(!user) {
+            return res.status(200).send({
+                message: "User Not Found",
+                success: false
+            })
+        }
+        user.password = undefined
+
+        res.status(200).json({
+            success: true,
+            user: user
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({
+            message: "auth error",
+            success: false,
+            error: error.message
+        })
     }
 }
