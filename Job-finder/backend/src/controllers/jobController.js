@@ -27,6 +27,11 @@ export const createJob = async (req, res, next) => {
         } 
         const newJob = new Jobs(createPostJob);
         await newJob.save();
+        res.status(200).json({
+            success: true,
+            message: "Post Created Successfully",
+            newJob
+        })
     } catch (error) {
         console.error(error);
         res.status(404).json({
@@ -35,6 +40,26 @@ export const createJob = async (req, res, next) => {
     }
 }   
 
-// export const updateJob = async (req, res, next) => {
-
-// }
+export const updateJob = async (req, res, next) => {
+    const { id } = req.params;
+    const jobPost = req.body
+    // Check id exist in DB
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).send(`No post with this id ${id}`);
+    }
+    try {
+        const updateJob = await Jobs.findByIdAndUpdate(id, jobPost, {
+            new: true,
+          });
+          res.status(200).json({
+            success: true,
+            message: "Post Updated Successfully",
+            updateJob
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(404).json({
+            message: error.message
+        })
+    }
+}
