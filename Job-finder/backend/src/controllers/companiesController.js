@@ -30,7 +30,8 @@ export const registerCompany = async(req, res, next) => {
             name, email, password
         }) 
 
-        const token = newAccount.createJWT();
+        const token = await newAccount.createJWT();
+        console.log(token);
 
         res.status(201).json({
             success: true,
@@ -40,7 +41,7 @@ export const registerCompany = async(req, res, next) => {
                 name: newAccount.name,
                 email: newAccount.email,
             },
-            token
+            token: token
         })
 
     } catch (error) {
@@ -64,7 +65,7 @@ export const loginCompany = async (req, res, next) => {
             return;
         }
 
-        const isMatch = await Companies.comparePassword(password);
+        const isMatch = await companyAccount.comparePassword(password);
         // compare password
         if(!isMatch){
             next("Invalid email or password");
@@ -72,7 +73,7 @@ export const loginCompany = async (req, res, next) => {
         }
         // security
         companyAccount.password = undefined
-        const token = companyAccount.createJWT();
+        const token = await companyAccount.createJWT();
 
         res.status(200).json({
             success: true,
@@ -107,16 +108,16 @@ export const updateCompanyProfile = async (req, res, next) => {
             name, contact, location, profileUrl, about, _id: id
         }
 
-        const newCompany = await Companies.findByIdAndUpdate(id, updatedCompany, {
+        const newCompany = await Companies.findByIdAndUpdate(id, updateCompany, {
             new: true
         });
 
         const token = newCompany.createJWT();
-        company.password = undefined;
+        newCompany.password = undefined;
         res.status(200).json({
             success: true,
-            message: "Compay Profile Updated Successfully",
-            company,
+            message: "Company Profile Updated Successfully",
+            newCompany,
             token
         })
     } catch (error) {
@@ -130,6 +131,7 @@ export const updateCompanyProfile = async (req, res, next) => {
 export const getCompany = async (req, res, next) => {
     try {
         const id = req.body.user.userId;
+        console.log(id);
         const company = await Companies.findById({_id: id});
         
         if(!company){
@@ -155,7 +157,7 @@ export const getCompany = async (req, res, next) => {
 // get all companies
 export const getAllCompany = async (req, res, next) => {
     try {
-        const {search, sort, locaiton} = req.body
+        const {search, sort, location} = req.body
 
         // condition for searching
         const queryObject = {};
@@ -199,6 +201,8 @@ export const getAllCompany = async (req, res, next) => {
 
         // Paginations
         const page = Number(req.query.page) || 1
+        
+        // giới hạn bao nhiêu item trong 1 page 
         const limit = Number(req.query.limit) || 20
         const skip = (page -1) * limit;
         // records count
@@ -214,7 +218,7 @@ export const getAllCompany = async (req, res, next) => {
         queryResult = queryResult.limit(limit * page);
 
         const companies = await queryResult;
-        res.stauts(200).json({
+        res.status(200).json({
             success: true,
             total,
             data: companies,
@@ -278,5 +282,33 @@ export const getCompanyJob = async (req, res, next) => {
         res.status(404).json({
             message: error.message
         })
+    }
+}
+
+// get detail company
+export const getDetailCompany = async (req, res, next) => {
+    try {
+        const {id} = req.params
+        const company = await Companies.findById({_id: id}).populate({
+            path: "jobPosts",
+            options: {
+                sort: "-_id"
+            },
+        });
+
+        if(!company) {
+            return res.status(200).send({
+                message: "Company Not Found",
+                success: false
+            })
+        }
+
+        company.password = undefined
+        res.status(200).json({
+            success: true,
+            data: company
+        })
+    } catch (error) {
+        console.error(error);
     }
 }
