@@ -1,33 +1,42 @@
 import mongoose from "mongoose";
-import Jobs from "../models/jobModel";
+import Companies from "../models/companiesModel.js";
+import Jobs from "../models/jobModel.js";
 
 // Create Job Post
 export const createJob = async (req, res, next) => {
     try {
         const {jobTitle, jobType, 
-            location, salary, vacanies, 
+            location, salary, vacancies, 
             experience, desc, requirements} = req.body;
 
         if(!jobTitle || !jobType || !location || 
-            !salary || !requirements || desc) 
+            !salary || !requirements || !desc) 
             {
                 next("Please Provide All Required Fields");
                 return;
             }
 
         const id = req.body.user.userId;
+
         if(!mongoose.Types.ObjectId.isValid(id)){
             return res.status(404).send(`No Company with id: ${id}`);
         }
 
         const createPostJob = {
             jobTitle, jobType, 
-            location, salary, vacanies, 
+            location, salary, vacancies, 
             experience, details: {desc, requirements},
             company: id
         } 
         const newJob = new Jobs(createPostJob);
         await newJob.save();
+        
+        //cập nhật lại số lượng bài đăng 
+        const company = await Companies.findById(id);
+        company.jobPosts.push(newJob._id);
+        await Companies.findByIdAndUpdate(id, company, {
+            new: true,
+          });
         res.status(200).json({
             success: true,
             message: "Post Created Successfully",
@@ -53,6 +62,7 @@ export const updateJob = async (req, res, next) => {
         const updateJob = await Jobs.findByIdAndUpdate(id, jobPost, {
             new: true,
           });
+          console.log(updateJob);
           res.status(200).json({
             success: true,
             message: "Post Updated Successfully",
@@ -70,8 +80,8 @@ export const updateJob = async (req, res, next) => {
 export const getJobPosts = async (req, res, next) => {
     try {
         const {search, sort, location, jtype, exp} = req.query;
-        const types = jtype.split(','); //ex: full-time,part-time
-        const experience = exp.split('-'); //ex: 2-6
+        const types = jtype?.split(','); //ex: full-time,part-time
+        const experience = exp?.split('-'); //ex: 2-6
 
         let queryObject = {};
         if(location){
@@ -134,7 +144,7 @@ export const getJobPosts = async (req, res, next) => {
         const skip = (page - 1) * limit;
 
         const totalJobs = await Jobs.countDocuments(queryResult);
-        const numOfPage = Math.ceil(total/ limit);
+        const numOfPage = Math.ceil(totalJobs/ limit);
         queryResult = queryResult.limit(limit * page);
         const jobs = await queryResult;
         res.status(200).json({
@@ -189,6 +199,28 @@ export const getJobById = async (req, res, next) => {
             data: job,
             similarPosts,
         })
+    } catch (error) {
+        console.error(error);
+        res.status(404).json({
+            message: error.message
+        })
+    }
+}
+
+// Delete job post
+export const deletePost = async (req, res, next) => {
+    try {
+        const {id} = req.params;
+        // Check id exist in DB
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).send("No post with this id");
+        }
+        await Jobs.findByIdAndDelete(id);
+        res.status(200).json({
+            success: true,
+            message: "Job Post Deleted Successfully"
+        })
+
     } catch (error) {
         console.error(error);
         res.status(404).json({
