@@ -4,11 +4,11 @@ import Jobs from "../models/jobModel";
 // Create Job Post
 export const createJob = async (req, res, next) => {
     try {
-        const {jobTitle, JobType, 
+        const {jobTitle, jobType, 
             location, salary, vacanies, 
             experience, desc, requirements} = req.body;
 
-        if(!jobTitle || !JobType || !location || 
+        if(!jobTitle || !jobType || !location || 
             !salary || !requirements || desc) 
             {
                 next("Please Provide All Required Fields");
@@ -21,7 +21,7 @@ export const createJob = async (req, res, next) => {
         }
 
         const createPostJob = {
-            jobTitle, JobType, 
+            jobTitle, jobType, 
             location, salary, vacanies, 
             experience, details: {desc, requirements},
             company: id
@@ -96,7 +96,7 @@ export const getJobPosts = async (req, res, next) => {
             const searchQuery = {
                 $or: [
                     {jobTitle: {$regex: search, $options: "i"}},
-                    {JobType: {$regex: search, $options: "i"}},
+                    {jobType: {$regex: search, $options: "i"}},
                 ]
             };
             queryObject = {...queryObject, ...searchQuery}
@@ -143,6 +143,51 @@ export const getJobPosts = async (req, res, next) => {
             data: jobs,
             page,
             numOfPage
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(404).json({
+            message: error.message
+        })
+    }
+}
+
+// Get Job by Id
+export const getJobById = async (req, res, next) => {
+    try {
+        const {id} = req.params
+        const job = await Jobs.findById({_id: id}).populate({
+            path: "company",
+            select: "-password",
+        })
+
+        if(!job){
+            res.status(200).send({
+                message: "Job Post Not Found",
+                success: false
+            });
+        }
+
+        // Get Similar job post
+        const searchQuery = {
+            $or: [
+                {jobTitle: {$regex: job?.jobTitle, $options: "i"}},
+                {jobType: {$regex: job?.jobType, $options: "i"}},
+            ]
+        }
+
+        let queryResult = Jobs.find(searchQuery).populate({
+            path: "company",
+            select: "-password"
+        }).sort({_id: -1});
+
+        queryResult = queryResult.limit(6);
+        const similarPosts = await queryResult;
+
+        res.status(200).json({
+            success: true,
+            data: job,
+            similarPosts,
         })
     } catch (error) {
         console.error(error);
