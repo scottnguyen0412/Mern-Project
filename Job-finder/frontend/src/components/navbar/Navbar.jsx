@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import { Form } from "react-router-dom";
+import React, { Fragment, useEffect } from "react";
+import { Form, useLocation, useNavigate } from "react-router-dom";
 import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";
@@ -10,10 +10,16 @@ import { useState } from "react";
 import CustomButton from "../CustomButton";
 import "../../utils/data";
 import { users } from "../../utils/data";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/userSlice";
 
 function MenuList({ user, onClick }) {
-  const handleLogout = () => {};
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
 
   return (
     <div>
@@ -105,13 +111,23 @@ function MenuList({ user, onClick }) {
 }
 
 const Navbar = () => {
-  const user = useSelector((state) => state.user);
+  const location = useLocation();
+  // const { user } = useSelector((state) => state?.user);
+  const [user, setUser] = useState();
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    console.log(user);
+    setUser(user);
+  }, [location]);
 
   const handleCloseNavbar = () => {
     // phủ định giá trị
     setIsOpen((prev) => !prev);
   };
+
   return (
     <>
       <div className="relative bg-[#f7fdfd] z-50">
@@ -137,7 +153,13 @@ const Navbar = () => {
           </ul>
 
           <div className="hidden lg:block">
-            {!user?.token ? (
+            {loading ? (
+              <p>Loading...</p>
+            ) : user?.token ? (
+              <div>
+                <MenuList user={user} onClick={handleCloseNavbar} />
+              </div>
+            ) : (
               <Link to="/user-auth">
                 <CustomButton
                   title="Sign In"
@@ -146,10 +168,6 @@ const Navbar = () => {
                   hover:text-white rounded-full text-base border border-blue-600"
                 />
               </Link>
-            ) : (
-              <div>
-                <MenuList user={user} onClick={handleCloseNavbar} />
-              </div>
             )}
           </div>
 
@@ -183,17 +201,17 @@ const Navbar = () => {
           </Link>
 
           <div className="w-full py-10">
-            {!user?.token ? (
-              <a href="/user-auth">
+            {user?.token ? (
+              <div>
+                <MenuList user={user} onClick={handleCloseNavbar} />
+              </div>
+            ) : (
+              <Link to="/user-auth">
                 <CustomButton
                   title="Sign In"
                   containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
                 />
-              </a>
-            ) : (
-              <div>
-                <MenuList user={user} onClick={handleCloseNavbar} />
-              </div>
+              </Link>
             )}
           </div>
         </div>

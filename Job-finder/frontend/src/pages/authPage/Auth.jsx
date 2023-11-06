@@ -17,11 +17,11 @@ const Auth = () => {
   // Néu không thì sẽ mặc định là "/"
   let from = location?.state?.from?.pathname || "/";
   useEffect(() => {
-    if (user.token) {
+    if (user?.token) {
       // Nếu đã đăng nhập thì redirect đến route trước đó hoặc route mặc định "/"
       navigate(from, { replace: true });
     }
-  }, [user.token, navigate, from]);
+  }, [user?.token, navigate, from]);
 
   return (
     <div className="w-full">

@@ -69,7 +69,7 @@ const CompanyForm = ({ open, setOpen }) => {
                       label="Company Name"
                       type="text"
                       register={register("name", {
-                        required: "Compnay Name is required",
+                        required: "Company Name is required",
                       })}
                       error={errors.name ? errors.name?.message : ""}
                     />
